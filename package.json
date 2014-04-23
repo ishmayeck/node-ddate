@@ -1,0 +1,25 @@
+{
+  "name": "ddate",
+  "version": "0.1.0",
+  "description": "Command-line utility and library for converting aneristic dates to Discordian ones.",
+  "main": "ddate.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ishmayeck/node-ddate.git"
+  },
+  "keywords": [
+    "date",
+    "time",
+    "discordian",
+    "fnord"
+  ],
+  "author": "Mikhail Novikov <ishmayeck@ishmayeck.com>",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/ishmayeck/node-ddate/issues"
+  },
+  "homepage": "https://github.com/ishmayeck/node-ddate"
+}

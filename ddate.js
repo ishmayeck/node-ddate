@@ -32,16 +32,22 @@ var year = day * 365;
 
 /* for reference, epoch is Sweetmorn, 1 Chaos 3136 */
 var getDate = function(epooch) {
-    var ds = Math.floor((epooch / day) % 5) -1;
+    var ds = (Math.floor(epooch / day) % 5) - 1;
+    (ds == -1) && (ds = 0);
     var sn = Math.floor((epooch / day / 73) % 5);
     var flarf = Math.floor(3136 + (epooch / year));
+
+    var leps = Math.floor(epooch / year / 4);
+    var lard = Math.floor((epooch % year) / day) - leps;
+    var gwar = lard % 73 + 1;
 
     return {
         dw: days[ds],
         sn: seasons[sn],
+        d: gwar,
         yold: flarf
     };
 };
 
-var g = getDate(new Date().getTime());
-console.log(g.dw.l, g.sn.l, g.yold);
+var g = getDate((process.argv[2] ? new Date(parseInt(process.argv[2])) : new Date()).getTime());
+console.log(g.d, g.dw.l, g.sn.l, g.yold);
