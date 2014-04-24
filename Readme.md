@@ -24,6 +24,10 @@ or for use from the command line:
 
 tbd.
 
+## Known Issues
+
+For now it can only handle dates after UNIX epoch. Will fix eventually.
+
 ## License
 
 Quadruple licensed under the WTFPL, BSD 3-Clause, MIT and zlib licenses. Use whichever one you want. Or you can use
