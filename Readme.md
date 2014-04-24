@@ -4,11 +4,11 @@ Utility to convert dates to the Discordian calendar.
 
 ## Features
 
-    - Can be require()d as a library
-    - Can be used from the command-line as a (almost) drop-in replacement for the ddate utility found in util-linux.
-    This is really good for systems like windows where building such things is a pain.
-    - Converts aneristic dates into Discordian ones
-    - Written in the spirit of the original ddate utility!
+- Can be require()d as a library
+- Can be used from the command-line as a (almost) drop-in replacement for the ddate utility found in util-linux.
+This is really good for systems like windows where building such things is a pain.
+- Converts aneristic dates into Discordian ones
+- Written in the spirit of the original ddate utility!
 
 ## Installation
 
@@ -22,4 +22,9 @@ or for use from the command line:
 
 ## Usage
 
-    tbd.
+tbd.
+
+## License
+
+Quadruple licensed under the WTFPL, BSD 3-Clause, MIT and zlib licenses. Use whichever one you want. Or you can use
+one you don't want, if you want.
