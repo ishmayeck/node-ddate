@@ -6,6 +6,12 @@
   "scripts": {
     "test": "echo \"fnord\" && exit 5"
   },
+  "bin": {
+    "ddate": "ddate.js"
+  },
+  "files": [
+    "ddate.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ishmayeck/node-ddate.git"
@@ -20,7 +26,8 @@
   "author": "Mikhail Novikov <ishmayeck@ishmayeck.com>",
   "license": "WTFPL / BSD-3-Clause / MIT / zlib",
   "bugs": {
-    "url": "https://github.com/ishmayeck/node-ddate/issues"
+    "url": "https://github.com/ishmayeck/node-ddate/issues",
+    "email": "ishmayeck@ishmayeck.com"
   },
   "homepage": "https://github.com/ishmayeck/node-ddate"
 }
