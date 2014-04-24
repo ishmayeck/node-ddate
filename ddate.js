@@ -39,7 +39,7 @@ var DDate = function(epooch) {
         var leps = Math.floor(epooch / year / 4);
         epooch -= leps * day;
 
-        var into = Math.floor((epooch % year) / day);
+        var into = Math.ceil((epooch % year) / day);
         var gwar = Math.floor(into % 73);
         var sn = Math.floor(into / 73);
         var woody = Math.floor(into % 5);
