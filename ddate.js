@@ -1,3 +1,5 @@
+#!env node
+
 var days = [
     { l: 'Sweetmorn', s: 'SM' },
     { l: 'Boomtime', s: 'BT' },
@@ -30,24 +32,71 @@ var holydays = [
 var day = 1000 * 60 * 60 * 24;
 var year = day * 365;
 
-/* for reference, epoch is Sweetmorn, 1 Chaos 3136 */
-var getDate = function(epooch) {
-    var ds = (Math.floor(epooch / day) % 5) - 1;
-    (ds == -1) && (ds = 0);
-    var sn = Math.floor((epooch / day / 73) % 5);
-    var flarf = Math.floor(3136 + (epooch / year));
+var DDate = function(epooch) {
+    /* for reference, epoch is Sweetmorn, 1 Chaos 3136 */
 
-    var leps = Math.floor(epooch / year / 4);
-    var lard = Math.floor((epooch % year) / day) - leps;
-    var gwar = lard % 73 + 1;
+    this.getDate = function(epooch) {
+        var leps = Math.floor(epooch / year / 4);
+        epooch -= leps * day;
 
-    return {
-        dw: days[ds],
-        sn: seasons[sn],
-        d: gwar,
-        yold: flarf
+        var into = Math.floor((epooch % year) / day);
+        var gwar = Math.floor(into % 73);
+        var sn = Math.floor(into / 73);
+        var woody = Math.floor(into % 5);
+        (into < 73) ? gwar++ : woody--;
+        var flarf = Math.floor(epooch / (day * 365)) + 3136;
+        return {
+            day: days[woody],
+            season: seasons[sn],
+            date: gwar,
+            year: flarf
+        };
     };
+
+    this.numberize = function(num) {
+        switch(num % 10) {
+            case 1:
+                return num + 'st';
+            case 2:
+                return num + 'nd';
+            case 3:
+                return num + 'rd';
+            case 4:
+            default:
+                return num + 'th';
+        }
+    };
+
+    this.toOldImmediateDateFormat = function() {
+        return this.date.day.l + ', the ' + this.numberize(this.date.date) + ' day of ' +
+            this.date.season.l + ' in the YOLD ' + this.date.year;
+    };
+
+    this.getDateString = function() {
+        return this.date.day.l + ', ' + this.date.season.l + ' ' + this.date.date + ', ' + this.date.year + ' YOLD';
+    };
+
+    this.date = this.getDate(epooch || new Date().getTime());
 };
 
-var g = getDate((process.argv[2] ? new Date(parseInt(process.argv[2])) : new Date()).getTime());
-console.log(g.d, g.dw.l, g.sn.l, g.yold);
+module.exports = DDate;
+
+if(process.argv.length > 1 && (process.argv[1].slice(-5) == 'ddate' || process.argv[1].slice(-8) == 'ddate.js')) {
+    // this will break SO badly when someone requires this module from an executable script named ddate.js.
+    // But then it will be their fault for stealing my name.
+    t = false;
+    if(!process.argv[2]) {
+        t = true;
+        var d = new Date();
+    } else if(process.argv[2].indexOf(' ') > -1) {
+        var d = new Date(process.argv[2]);
+    } else if(process.argv.length > 4) {
+        var d = new Date(String('000' + process.argv[3]).slice(-2) + '-' +
+            String('000' + process.argv[2]).slice(-2) + '-' +
+            String('000' + process.argv[4]).slice(-4));
+    } else {
+        var d = new Date(parseInt(process.argv[2]));
+    }
+    var g = new DDate(d.getTime());
+    console.log(t ? 'Today is ' + g.toOldImmediateDateFormat() : g.getDateString());
+}
