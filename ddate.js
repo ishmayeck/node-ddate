@@ -1,4 +1,4 @@
-#!env node
+#!/usr/bin/env node
 
 var days = [
     { l: 'Sweetmorn', s: 'SM' },
@@ -39,11 +39,13 @@ var DDate = function(epooch) {
         var leps = Math.floor(epooch / year / 4);
         epooch -= leps * day;
 
-        var into = Math.ceil((epooch % year) / day);
-        var gwar = Math.floor(into % 73);
-        var sn = Math.floor(into / 73);
-        var woody = Math.floor(into % 5);
-        (into < 73) ? gwar++ : woody--;
+        var cur = Math.ceil((epooch % year) / day - 1);
+        var gwar = Math.floor(cur % 73) + 1;
+        var sn = Math.floor(cur / 73);
+        var woody = 0;
+        for(var i = 1; i <= cur; i++) {
+            woody = (woody == 4) ? 0 : woody + 1;
+        }
         var flarf = Math.floor(epooch / (day * 365)) + 3136;
         return {
             day: days[woody],
