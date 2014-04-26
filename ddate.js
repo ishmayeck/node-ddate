@@ -29,17 +29,19 @@ var holydays = [
     { n: 'Afflux', s: 'The Aftermath', d: 50 }
 ];
 
-var day = 1000 * 60 * 60 * 24;
+var minute = 1000 * 60;
+var day = minute * 60 * 24;
 var year = day * 365;
 
 var DDate = function(epooch) {
     /* for reference, epoch is Sweetmorn, 1 Chaos 3136 */
 
     this.getDate = function(epooch) {
+        epooch -= new Date().getTimezoneOffset() * minute;
         var leps = Math.floor(epooch / year / 4);
         epooch -= leps * day;
 
-        var cur = Math.ceil((epooch % year) / day - 1);
+        var cur = Math.floor((epooch % year) / day);
         var gwar = Math.floor(cur % 73) + 1;
         var sn = Math.floor(cur / 73);
         var woody = 0;
