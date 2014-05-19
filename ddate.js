@@ -4,7 +4,7 @@ var days = [
     { l: 'Sweetmorn', s: 'SM' },
     { l: 'Boomtime', s: 'BT' },
     { l: 'Pungenday', s: 'PD' },
-    { l: 'Prickle-Pricle', s: 'PP' },
+    { l: 'Prickle-Prickle', s: 'PP' },
     { l: 'Setting Orange', s: 'SO' }
 ];
 
