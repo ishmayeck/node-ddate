@@ -16,18 +16,28 @@ var seasons = [
     { l: 'The Aftermath', s: 'Afm' }
 ];
 
-var holydays = [
-    { n: 'Mungday', s: 'Chaos', d: 5 },
-    { n: 'Chaoflux', s: 'Chaos', d: 50 },
-    { n: 'Mojoday', s: 'Discord', d: 5 },
-    { n: 'Discoflux', s: 'Discord', d: 50 },
-    { n: 'Syaday', s: 'Confusion', d: 5 },
-    { n: 'Confuflux', s: 'Confusion', d: 50 },
-    { n: 'Zaraday', s: 'Bureaucracy', d: 5 },
-    { n: 'Bureflux', s: 'Bureaucracy', d: 50 },
-    { n: 'Maladay', s: 'The Aftermath', d: 5 },
-    { n: 'Afflux', s: 'The Aftermath', d: 50 }
-];
+var holydays = {
+    'Chaos': {
+        5: 'Mungday',
+        50: 'Chaoflux'
+    },
+    'Discord': {
+        5: 'Mojoday',
+        50: 'Discoflux'
+    },
+    'Confusion': {
+        5: 'Syaday',
+        50: 'Confuflux'
+    },
+    'Bureaucracy': {
+        5: 'Zaraday',
+        50: 'Bureflux'
+    },
+    'The Aftermath': {
+        5: 'Maladay',
+        50: 'Afflux'
+    }
+};
 
 var minute = 1000 * 60;
 var day = minute * 60 * 24;
@@ -53,7 +63,8 @@ var DDate = function(epooch) {
             day: days[woody],
             season: seasons[sn],
             date: gwar,
-            year: flarf
+            year: flarf,
+            holyday: holydays[seasons[sn].l][gwar] || false
         };
     };
 
@@ -103,4 +114,7 @@ if(process.argv.length > 1 && (process.argv[1].slice(-5) == 'ddate' || process.a
     }
     var g = new DDate(d.getTime());
     console.log(t ? 'Today is ' + g.toOldImmediateDateFormat() : g.getDateString());
+    if(g.date.holyday) {
+        console.log('Celebrate ' + g.date.holyday);
+    }
 }
