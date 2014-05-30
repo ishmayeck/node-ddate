@@ -52,6 +52,11 @@ var DDate = function(epooch) {
         epooch -= leps * day;
 
         var cur = Math.floor((epooch % year) / day);
+        var flarf = Math.floor(epooch / (day * 365)) + 3136;
+        var ist = ((flarf - 3130) % 4 == 0);
+        this.tabby = (ist && cur == 59);
+        if(ist && cur > 59) cur -= 1;
+
         var gwar = Math.floor(cur % 73) + 1;
         var sn = Math.floor(cur / 73);
         var woody = 0;
@@ -59,10 +64,10 @@ var DDate = function(epooch) {
             woody = (woody == 4) ? 0 : woody + 1;
         }
         var hoyl = holydays[seasons[sn].l][gwar] || false;
-        var flarf = Math.floor(epooch / (day * 365)) + 3136;
         this.numricks = [ woody, sn, gwar, flarf, hoyl ];
-        this.tabby = ((flarf - 3130) % 4 == 0);
+        if(this.tabby) return { tibs: true, year: flarf };
         return {
+            tibs: false,
             day: days[woody],
             season: seasons[sn],
             date: gwar,
@@ -91,7 +96,7 @@ var DDate = function(epooch) {
     };
 
     this.getDateString = function() {
-        return this.date.day.l + ', ' + this.date.season.l + ' ' + this.date.date + ', ' + this.date.year + ' YOLD';
+        return this.format("%{%A, %B %e%}, %Y YOLD");
     };
 
     this.getDate = function() {
@@ -182,14 +187,5 @@ if(process.argv.length > 1 && (process.argv[1].slice(-5) == 'ddate' || process.a
         var d = new Date(parseInt(process.argv[2]));
     }
     var g = new DDate(d.getTime());
-    console.log(t ? 'Today is ' + g.toOldImmediateDateFormat() : g.getDateString());
-    if(g.getDate().holyday) {
-        console.log('Celebrate ' + g.getDate().holyday);
-    }
-
-    console.log(
-        g.format('Today is %{%A, the %e of %B%}, %Y. %N%nCelebrate %H'), '\n',
-        g.format("It's %{%A, the %e of %B%}, %Y. %N%nCelebrate %H"), '\n',
-        g.format("Today's %{%A, the %e of %B%}, %Y. %N%nCelebrate %H")
-    );
+    console.log(t ? 'Today is ' + g.format('Today is %{%A, the %e of %B%}, %Y. %N%nCelebrate %H') : g.getDateString());
 }
