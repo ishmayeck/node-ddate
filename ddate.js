@@ -95,6 +95,30 @@ var DDate = function(epooch) {
         return this.date;
     };
 
+    this.format = function(str) {
+        if(!str) return;
+        var r = '';
+        for(var i = 0; i < str.length; i++) {
+            if(str[i] == '%') {
+                switch(str[i+1]) {
+                    case 's':
+                        r += 'SECONDS!';
+                        break;
+                    case 'd':
+                        r += 'DAYS! or something';
+                        break;
+                    default:
+                        r += str[i];
+                        break;
+                }
+                i++;
+            } else {
+                r += str[i];
+            }
+        }
+        return r;
+    };
+
     this.date = this.initificate(epooch || new Date().getTime());
 };
 
@@ -121,4 +145,8 @@ if(process.argv.length > 1 && (process.argv[1].slice(-5) == 'ddate' || process.a
     if(g.getDate().holyday) {
         console.log('Celebrate ' + g.getDate().holyday);
     }
+
+    console.log(
+        g.format('a%sdf!%d%')
+    );
 }
