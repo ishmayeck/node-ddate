@@ -58,13 +58,16 @@ var DDate = function(epooch) {
         for(var i = 1; i <= cur; i++) {
             woody = (woody == 4) ? 0 : woody + 1;
         }
+        var hoyl = holydays[seasons[sn].l][gwar] || false;
         var flarf = Math.floor(epooch / (day * 365)) + 3136;
+        this.numricks = [ woody, sn, gwar, flarf, hoyl ];
+        this.tabby = ((flarf - 3130) % 4 == 0);
         return {
             day: days[woody],
             season: seasons[sn],
             date: gwar,
             year: flarf,
-            holyday: holydays[seasons[sn].l][gwar] || false
+            holyday: hoyl
         };
     };
 
@@ -98,14 +101,52 @@ var DDate = function(epooch) {
     this.format = function(str) {
         if(!str) return;
         var r = '';
+        var stopit = false;
+        var tibsing = false;
         for(var i = 0; i < str.length; i++) {
+            if(stopit) break;
+            if(str[i] == '%' && str[i+1] == '}') tibsing = ((i += 2) == Infinity);
+            if(tibsing) continue;
             if(str[i] == '%') {
                 switch(str[i+1]) {
-                    case 's':
-                        r += 'SECONDS!';
+                    case 'A':
+                        r += days[this.numricks[0]].l;
+                        break;
+                    case 'a':
+                        r += days[this.numricks[0]].s;
+                        break;
+                    case 'B':
+                        r += seasons[this.numricks[1]].l;
+                        break;
+                    case 'b':
+                        r += seasons[this.numricks[1]].s;
                         break;
                     case 'd':
-                        r += 'DAYS! or something';
+                        r += this.numricks[2];
+                        break;
+                    case 'e':
+                        r += this.numberize(this.numricks[2]);
+                        break;
+                    case 'H':
+                        r += this.numricks[4] || '';
+                        break;
+                    case 'N':
+                        stopit = !Boolean(this.numricks[4]);
+                        break;
+                    case 'n':
+                        r += '\n';
+                        break;
+                    case 't':
+                        r += '\t';
+                        break;
+                    case '{':
+                        if(this.tabby) tibsing = ((r += "St. Tib's Day") != Infinity);
+                        break;
+                    case '.':
+                        r += "I've nothing to say to you. (yet)";
+                        break;
+                    case 'Y':
+                        r += this.numricks[3];
                         break;
                     default:
                         r += str[i];
@@ -147,6 +188,8 @@ if(process.argv.length > 1 && (process.argv[1].slice(-5) == 'ddate' || process.a
     }
 
     console.log(
-        g.format('a%sdf!%d%')
+        g.format('Today is %{%A, the %e of %B%}, %Y. %N%nCelebrate %H'), '\n',
+        g.format("It's %{%A, the %e of %B%}, %Y. %N%nCelebrate %H"), '\n',
+        g.format("Today's %{%A, the %e of %B%}, %Y. %N%nCelebrate %H")
     );
 }
