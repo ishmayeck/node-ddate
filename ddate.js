@@ -46,7 +46,7 @@ var year = day * 365;
 var DDate = function(epooch) {
     /* for reference, epoch is Sweetmorn, 1 Chaos 3136 */
 
-    this.getDate = function(epooch) {
+    this.initificate = function(epooch) {
         epooch -= new Date().getTimezoneOffset() * minute;
         var leps = Math.floor(epooch / year / 4);
         epooch -= leps * day;
@@ -91,7 +91,11 @@ var DDate = function(epooch) {
         return this.date.day.l + ', ' + this.date.season.l + ' ' + this.date.date + ', ' + this.date.year + ' YOLD';
     };
 
-    this.date = this.getDate(epooch || new Date().getTime());
+    this.getDate = function() {
+        return this.date;
+    };
+
+    this.date = this.initificate(epooch || new Date().getTime());
 };
 
 module.exports = DDate;
@@ -114,7 +118,7 @@ if(process.argv.length > 1 && (process.argv[1].slice(-5) == 'ddate' || process.a
     }
     var g = new DDate(d.getTime());
     console.log(t ? 'Today is ' + g.toOldImmediateDateFormat() : g.getDateString());
-    if(g.date.holyday) {
-        console.log('Celebrate ' + g.date.holyday);
+    if(g.getDate().holyday) {
+        console.log('Celebrate ' + g.getDate().holyday);
     }
 }
