@@ -1,6 +1,6 @@
 {
   "name": "ddate",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Command-line utility and library for converting aneristic dates to Discordian ones.",
   "main": "ddate.js",
   "scripts": {
