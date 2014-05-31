@@ -45,6 +45,7 @@ var year = day * 365;
 
 var DDate = function(epooch) {
     /* for reference, epoch is Sweetmorn, 1 Chaos 3136 */
+    this.date = {};
 
     this.initificate = function(epooch) {
         epooch -= new Date().getTimezoneOffset() * minute;
@@ -95,7 +96,7 @@ var DDate = function(epooch) {
             this.date.season.l + ' in the YOLD ' + this.date.year;
     };
 
-    this.getDateString = function() {
+    this.toDateString = function() {
         return this.format("%{%A, %B %e%}, %Y YOLD");
     };
 
