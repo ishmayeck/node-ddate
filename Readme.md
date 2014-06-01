@@ -13,7 +13,7 @@ Utility to convert dates to the Discordian calendar.
 ## Installation
 
 Install from npm with ```npm install ddate```. Toss in the ```-g``` flag if you want to run it from the commandline too,
-which you should beacuse it's great.
+which you should because it's great.
 
 ## Commandline Usage
 
