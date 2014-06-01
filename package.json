@@ -16,6 +16,7 @@
     "type": "git",
     "url": "https://github.com/ishmayeck/node-ddate.git"
   },
+  "preferGlobal": true,
   "keywords": [
     "date",
     "time",
