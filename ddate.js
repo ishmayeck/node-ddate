@@ -175,18 +175,29 @@ if(process.argv.length > 1 && (process.argv[1].slice(-5) == 'ddate' || process.a
     // this will break SO badly when someone requires this module from an executable script named ddate.js.
     // But then it will be their fault for stealing my name.
     t = false;
-    if(!process.argv[2]) {
+    f = false;
+    var varg = process.argv;
+    if(varg[2] && varg[2][0] == '+') {
+        f = varg[2].slice(1);
+        var vor = [];
+        for(var i = 0; i < varg.length; i++) {
+            if(i !== 2) vor.push(varg[i]);
+        }
+        varg = vor;
+    }
+
+    if(!varg[2]) {
         t = true;
         var d = new Date();
-    } else if(process.argv[2].indexOf(' ') > -1) {
-        var d = new Date(process.argv[2]);
-    } else if(process.argv.length > 4) {
-        var d = new Date(String('000' + process.argv[3]).slice(-2) + '-' +
-            String('000' + process.argv[2]).slice(-2) + '-' +
-            String('000' + process.argv[4]).slice(-4));
+    } else if(varg[2].indexOf(' ') > -1) {
+        var d = new Date(varg[2]);
+    } else if(varg.length > 4) {
+        var d = new Date(String('000' + varg[3]).slice(-2) + '-' +
+            String('000' + varg[2]).slice(-2) + '-' +
+            String('000' + varg[4]).slice(-4));
     } else {
-        var d = new Date(parseInt(process.argv[2]));
+        var d = new Date(parseInt(varg[2]));
     }
     var g = new DDate(d.getTime());
-    console.log(t ? 'Today is ' + g.format('Today is %{%A, the %e of %B%}, %Y. %N%nCelebrate %H') : g.getDateString());
+    console.log(t ? g.format((f || 'Today is %{%A, the %e day of %B%} in the YOLD %Y%N%nCelebrate %H')) : (f ? g.format(f) : g.toDateString()));
 }
