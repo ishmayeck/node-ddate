@@ -96,6 +96,7 @@ Returns an object describing the current Discordian date.
     { 
       tibs: false, // St. Tib's day indicator.
                    // If this is true, the presence and state of everything else in the object besides "year" are undefined.
+                   // As in, undefined behavior. Not the value undefined.
       day: {       // long and short names of the day
         l: 'Sweetmorn',
         s: 'SM'
