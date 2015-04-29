@@ -187,17 +187,18 @@ if(process.argv.length > 1 && (process.argv[1].slice(-5) == 'ddate' || process.a
         varg = vor;
     }
 
+    var d;
     if(!varg[2]) {
         t = true;
-        var d = new Date();
+        d = new Date();
     } else if(varg[2].indexOf(' ') > -1) {
-        var d = new Date(varg[2]);
+        d = new Date(varg[2]);
     } else if(varg.length > 4) {
-        var d = new Date(String('000' + varg[3]).slice(-2) + '-' +
+        d = new Date(String('000' + varg[3]).slice(-2) + '-' +
             String('000' + varg[2]).slice(-2) + '-' +
             String('000' + varg[4]).slice(-4));
     } else {
-        var d = new Date(parseInt(varg[2]));
+        d = new Date(parseInt(varg[2]));
     }
     var g = new DDate(d.getTime());
     console.log(t ? g.format((f || 'Today is %{%A, the %e day of %B%} in the YOLD %Y%N%nCelebrate %H')) : (f ? g.format(f) : g.toDateString()));
