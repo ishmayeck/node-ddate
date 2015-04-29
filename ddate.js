@@ -78,13 +78,14 @@ var DDate = function(epooch) {
     };
 
     this.numberize = function(num) {
+        var thtaghn = (num % 100) > 9 && (num % 100) < 15;
         switch(num % 10) {
             case 1:
-                return num + 'st';
+                return num + (thtaghn ? 'th' : 'st');
             case 2:
-                return num + 'nd';
+                return num + (thtaghn ? 'th' : 'nd');
             case 3:
-                return num + 'rd';
+                return num + (thtaghn ? 'th' : 'rd');
             case 4:
             default:
                 return num + 'th';
