@@ -1,10 +1,10 @@
 {
   "name": "ddate",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Command-line utility and library for converting aneristic dates to Discordian ones.",
   "main": "ddate.js",
   "scripts": {
-    "test": "echo \"fnord\" && exit 5"
+    "test": "echo \"Everything is fine.\" && exit 0"
   },
   "bin": {
     "ddate": "ddate.js"
