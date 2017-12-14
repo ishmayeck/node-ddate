@@ -43,36 +43,73 @@ var minute = 1000 * 60;
 var day = minute * 60 * 24;
 var year = day * 365;
 
+var month_days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] ;
 var DDate = function(epooch) {
     /* for reference, epoch is Sweetmorn, 1 Chaos 3136 */
     this.date = {};
 
     this.initificate = function(epooch) {
-        epooch -= new Date().getTimezoneOffset() * minute;
-        var leps = Math.floor(epooch / year / 4);
-        epooch -= leps * day;
+        if( typeof epooch === 'undefined') epooch = new Date()
+        //epooch will be a date object
+        console.log( "epooch init", epooch);
+        var gd = new Date(epooch); 
+                
+        // epooch -= new Date().getTimezoneOffset() * minute;
+        console.log( "epooch", epooch, ",", gd.toString() );
 
-        var cur = Math.floor((epooch % year) / day);
-        var flarf = Math.floor(epooch / (day * 365)) + 3136;
-        var ist = ((flarf - 3130) % 4 == 0);
-        this.tabby = (ist && cur == 59);
-        if(ist && cur > 59) cur -= 1;
+        //leap years? epoch / 4
 
-        var gwar = Math.floor(cur % 73) + 1;
+        var years_since_epoch = Math.floor( epooch / year );
+        var leap_years_since_epoch =  (years_since_epoch >= 2 )? Math.floor( (years_since_epoch + 2) / 4 ) : 0 ;
+        console.log("years_since_epoch", years_since_epoch);
+        console.log("leap_years_since_epoch", leap_years_since_epoch);
+        // var yarz = epooch / year ; 
+        // console.log("yarz", yarz); 
+        // var leps = Math.floor(epooch / (year*4) );
+        // console.log("leps", leps );
+        var leapyear = ( ( years_since_epoch + 2 ) % 4 == 0 );
+        var leapyear_day_offset = Math.floor(leap_years_since_epoch * day);
+        var days_in_this_year = leapyear? 366 : 365 ;
+        console.log("epooch minus leps * day", epooch, leapyear_day_offset );
+
+        //current discordian day of season (5 x 73 day seasons)
+        var cur = Math.floor( (epooch % year) / day ) - leap_years_since_epoch;
+        console.log("cur init", cur);
+        // add one if it is a leap year
+        // if(leapyear) cur += 1 ;
+        //the discordian year
+        console.log("epooch", epooch );
+        var dyear = Math.floor(epooch / year) + 3136;
+        console.log("dyear", dyear);
+
+        //  Every fourth year in the Discordian calendar, starting in 2 YOLD an extra day is inserted between Chaos 59 and Chaos 60 called St. Tib's Day (same as unix epoch)
+        // var leapyear = ((dyear - 3134) % 4 == 0);
+        console.log("leapyear", leapyear);
+        //st.tibs day
+        this.tabby = (leapyear && cur == 59);
+        console.log("tabby", this.tabby);
+        
+        //remove st.tibs day since it it is "dateless"
+        if(leapyear && cur > 59) cur -= 1;
+        console.log("cur minus st.tibs", cur)
+
+        var dday = Math.floor(cur % 73) + 1;
+        console.log("dday", dday);
         var sn = Math.floor(cur / 73);
+        console.log("sn", sn);
         var woody = 0;
         for(var i = 1; i <= cur; i++) {
             woody = (woody == 4) ? 0 : woody + 1;
         }
-        var hoyl = holydays[seasons[sn].l][gwar] || false;
-        this.numricks = [ woody, sn, gwar, flarf, hoyl ];
-        if(this.tabby) return { tibs: true, year: flarf };
+        var hoyl = holydays[seasons[sn].l][dday] || false;
+        this.numricks = [ woody, sn, dday, dyear, hoyl ];
+        if(this.tabby) return { tibs: true, year: dyear };
         return {
             tibs: false,
             day: days[woody],
             season: seasons[sn],
-            date: gwar,
-            year: flarf,
+            date: dday,
+            year: dyear,
             holyday: hoyl
         };
     };
@@ -104,6 +141,10 @@ var DDate = function(epooch) {
     this.getDate = function() {
         return this.date;
     };
+
+    this.ddate = function() {
+        return this.format("Today is %{%A, the %e day of %B%} in the YOLD %Y%N%nCelebrate %H");
+    }
 
     this.format = function(str) {
         if(!str) return;
@@ -167,7 +208,7 @@ var DDate = function(epooch) {
         return r;
     };
 
-    this.date = this.initificate(epooch || new Date().getTime());
+    this.date = this.initificate( epooch || new Date().getTime() );
 };
 
 module.exports = DDate;

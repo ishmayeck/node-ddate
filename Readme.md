@@ -1,9 +1,11 @@
 # node-ddate
 
-Utility to convert dates to the Discordian calendar.
+Utility to convert dates to the Discordian calendar. forked from ishmayeck/node-ddate.
+
+- y2k17 compliant
+! 2100 on up seem to have issues though (math.floor?)
 
 ## Features
-
 - Blazing fast - no dependencies.
 - Can be require()d as a library
 - Almost 100% compatible with command-line usage of the ddate found in util-linux.

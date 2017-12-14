@@ -1,22 +1,65 @@
 {
-  "name": "ddate",
-  "version": "0.1.10",
-  "description": "Command-line utility and library for converting aneristic dates to Discordian ones.",
-  "main": "ddate.js",
-  "scripts": {
-    "test": "echo \"Everything is fine.\" && exit 0"
+  "_args": [
+    [
+      {
+        "raw": "ddate",
+        "scope": null,
+        "escapedName": "ddate",
+        "name": "ddate",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/home/alan/Dropbox/git/git.sysres/hubot/scripts"
+    ]
+  ],
+  "_from": "ddate@latest",
+  "_inCache": true,
+  "_location": "/ddate",
+  "_nodeVersion": "4.2.1",
+  "_npmUser": {
+    "name": "ishmayeck",
+    "email": "ishmayeck@ishmayeck.com"
   },
+  "_npmVersion": "2.14.7",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "ddate",
+    "scope": null,
+    "escapedName": "ddate",
+    "name": "ddate",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/ddate/-/ddate-0.1.10.tgz",
+  "_shasum": "28206331b47239ed011548aa2a652a40cd0022bc",
+  "_shrinkwrap": null,
+  "_spec": "ddate",
+  "_where": "/home/alan/Dropbox/git/git.sysres/hubot/scripts",
+  "author": "Mikhail Novikov <ishmayeck@ishmayeck.com>",
   "bin": {
     "ddate": "ddate.js"
+  },
+  "bugs": {
+    "url": "https://github.com/ishmayeck/node-ddate/issues",
+    "email": "ishmayeck@ishmayeck.com"
+  },
+  "dependencies": {},
+  "description": "Command-line utility and library for converting aneristic dates to Discordian ones.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "28206331b47239ed011548aa2a652a40cd0022bc",
+    "tarball": "https://registry.npmjs.org/ddate/-/ddate-0.1.10.tgz"
   },
   "files": [
     "ddate.js"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ishmayeck/node-ddate.git"
-  },
-  "preferGlobal": true,
+  "homepage": "https://github.com/ishmayeck/node-ddate",
   "keywords": [
     "date",
     "time",
@@ -24,11 +67,20 @@
     "calendar",
     "fnord"
   ],
-  "author": "Mikhail Novikov <ishmayeck@ishmayeck.com>",
-  "license": "WTFPL / BSD-3-Clause / MIT / zlib",
-  "bugs": {
-    "url": "https://github.com/ishmayeck/node-ddate/issues",
-    "email": "ishmayeck@ishmayeck.com"
+  "license": "WTFPL",
+  "main": "ddate.js",
+  "maintainers": [
+    "ishmayeck <ishmayeck@ishmayeck.com>"
+  ],
+  "name": "ddate",
+  "optionalDependencies": {},
+  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishmayeck/node-ddate.git"
   },
-  "homepage": "https://github.com/ishmayeck/node-ddate"
+  "scripts": {
+    "test": "echo \"Everything is fine.\" && exit 0"
+  },
+  "version": "0.1.11"
 }
