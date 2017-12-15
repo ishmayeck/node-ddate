@@ -3,7 +3,6 @@
 Utility to convert dates to the Discordian calendar. forked from ishmayeck/node-ddate.
 
 - y2k17 compliant
-- y2100 on up seem to have issues though (math.floor?)
 - Variables renamed to make some sort of sense to myself
 
 ## Features
@@ -15,7 +14,7 @@ Utility to convert dates to the Discordian calendar. forked from ishmayeck/node-
 
 ## Installation
 
-Install from npm with ```npm install ddate```. Toss in the ```-g``` flag if you want to run it from the commandline too,
+Install from npm with ```npm install defenestration/ddate```. Toss in the ```-g``` flag if you want to run it from the commandline too,
 which you should because it's great.
 
 ## Commandline Usage
