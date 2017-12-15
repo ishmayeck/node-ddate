@@ -3,7 +3,8 @@
 Utility to convert dates to the Discordian calendar. forked from ishmayeck/node-ddate.
 
 - y2k17 compliant
-! 2100 on up seem to have issues though (math.floor?)
+- y2100 on up seem to have issues though (math.floor?)
+- Variables renamed to make some sort of sense to myself
 
 ## Features
 - Blazing fast - no dependencies.

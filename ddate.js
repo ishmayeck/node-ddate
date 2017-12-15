@@ -43,66 +43,58 @@ var minute = 1000 * 60;
 var day = minute * 60 * 24;
 var year = day * 365;
 
-var month_days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] ;
+var month_days = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] ;
 var DDate = function(epooch) {
     /* for reference, epoch is Sweetmorn, 1 Chaos 3136 */
     this.date = {};
 
     this.initificate = function(epooch) {
-        if( typeof epooch === 'undefined') epooch = new Date()
-        //epooch will be a date object
-        console.log( "epooch init", epooch);
-        var gd = new Date(epooch); 
-                
-        // epooch -= new Date().getTimezoneOffset() * minute;
-        console.log( "epooch", epooch, ",", gd.toString() );
-
-        //leap years? epoch / 4
-
-        var years_since_epoch = Math.floor( epooch / year );
-        var leap_years_since_epoch =  (years_since_epoch >= 2 )? Math.floor( (years_since_epoch + 2) / 4 ) : 0 ;
-        console.log("years_since_epoch", years_since_epoch);
-        console.log("leap_years_since_epoch", leap_years_since_epoch);
-        // var yarz = epooch / year ; 
-        // console.log("yarz", yarz); 
-        // var leps = Math.floor(epooch / (year*4) );
-        // console.log("leps", leps );
-        var leapyear = ( ( years_since_epoch + 2 ) % 4 == 0 );
-        var leapyear_day_offset = Math.floor(leap_years_since_epoch * day);
-        var days_in_this_year = leapyear? 366 : 365 ;
-        console.log("epooch minus leps * day", epooch, leapyear_day_offset );
-
-        //current discordian day of season (5 x 73 day seasons)
-        var cur = Math.floor( (epooch % year) / day ) - leap_years_since_epoch;
-        console.log("cur init", cur);
-        // add one if it is a leap year
-        // if(leapyear) cur += 1 ;
-        //the discordian year
-        console.log("epooch", epooch );
-        var dyear = Math.floor(epooch / year) + 3136;
-        console.log("dyear", dyear);
-
-        //  Every fourth year in the Discordian calendar, starting in 2 YOLD an extra day is inserted between Chaos 59 and Chaos 60 called St. Tib's Day (same as unix epoch)
-        // var leapyear = ((dyear - 3134) % 4 == 0);
-        console.log("leapyear", leapyear);
-        //st.tibs day
-        this.tabby = (leapyear && cur == 59);
-        console.log("tabby", this.tabby);
-        
-        //remove st.tibs day since it it is "dateless"
-        if(leapyear && cur > 59) cur -= 1;
-        console.log("cur minus st.tibs", cur)
-
-        var dday = Math.floor(cur % 73) + 1;
-        console.log("dday", dday);
-        var sn = Math.floor(cur / 73);
-        console.log("sn", sn);
-        var woody = 0;
-        for(var i = 1; i <= cur; i++) {
-            woody = (woody == 4) ? 0 : woody + 1;
+        if( typeof epooch === 'undefined') { epooch = new Date(); } else {epooch = new Date(epooch) ;}
+        // console.log(epooch.toJSON() );
+        var gyear = epooch.getUTCFullYear() ; 
+        var leapyear = ( gyear % 4 == 0 ) ;
+        // console.log("leapyear", leapyear);
+        var dyear = gyear + 1166   ;
+        // console.log("dyear", dyear);
+        var dom = epooch.getDate();
+        // console.log("dom", dom);
+        var month = epooch.getMonth(); //0 index
+        // console.log("month", month);
+        var ddoy = dom ; 
+        var leapday = false ; 
+        for( var i = 0 ; i < month ; i++ ){
+            // console.log("month_days", i );
+            ddoy += month_days[i];
         }
+        //invalid
+        if( month_days[month] < dom ) {
+            // console.log("invalid date!");
+            return "error";
+        }
+
+        if(leapyear == true ){
+            if( month == 1 && dom == 29 ){ 
+                leapday = true;
+                // console.log("ld", leapday );
+            } 
+            // if( month > 1) {ddoy += 1 ; } ; 
+        }
+        // console.log( "leapday", leapday) ;
+        // console.log( "ddoy", ddoy );
+        var dday = ddoy % 73 ;
+        var sn = Math.floor( ddoy / 73 );
+        // console.log("sn", sn );
+        //weekday
+        var woody = ( ddoy - 1 ) % 5 ; 
+        // var woody = 0;
+        // for(var i = 1; i <= dday; i++) {
+        //     woody = (woody == 4) ? 0 : woody + 1;
+        // }
+        // console.log("woody", woody);
         var hoyl = holydays[seasons[sn].l][dday] || false;
+        // console.log("hoyl", hoyl );
         this.numricks = [ woody, sn, dday, dyear, hoyl ];
+        this.tabby = leapday ; 
         if(this.tabby) return { tibs: true, year: dyear };
         return {
             tibs: false,
@@ -135,7 +127,7 @@ var DDate = function(epooch) {
     };
 
     this.toDateString = function() {
-        return this.format("%{%A, %B %e%}, %Y YOLD");
+        return this.format("%{%A, %B %e%}, %Y YOLD %H");
     };
 
     this.getDate = function() {
