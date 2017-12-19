@@ -66,11 +66,6 @@ var DDate = function(epooch) {
             // console.log("month_days", i );
             ddoy += month_days[i];
         }
-        //invalid
-        if( month_days[month] < dom ) {
-            // console.log("invalid date!");
-            return "error";
-        }
 
         if(leapyear == true ){
             if( month == 1 && dom == 29 ){ 
@@ -78,6 +73,13 @@ var DDate = function(epooch) {
                 // console.log("ld", leapday );
             } 
             // if( month > 1) {ddoy += 1 ; } ; 
+        }
+        //invalid
+        if( ! leapday ) {
+            if ( month_days[month] < dom ) {
+                console.log("invalid date!");
+                return "error";
+            }
         }
         // console.log( "leapday", leapday) ;
         // console.log( "ddoy", ddoy );
@@ -140,12 +142,15 @@ var DDate = function(epooch) {
 
     this.format = function(str) {
         if(!str) return;
+        // console.log("str", str);
         var r = '';
         var stopit = false;
         var tibsing = false;
         for(var i = 0; i < str.length; i++) {
+            // console.log("i",i, str[i], str[i+1], "numricks", this.numricks );
             if(stopit) break;
             if(str[i] == '%' && str[i+1] == '}') tibsing = ((i += 2) == Infinity);
+            // console.log("tibsing",tibsing);
             if(tibsing) continue;
             if(str[i] == '%') {
                 switch(str[i+1]) {
