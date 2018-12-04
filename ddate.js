@@ -43,36 +43,67 @@ var minute = 1000 * 60;
 var day = minute * 60 * 24;
 var year = day * 365;
 
+var month_days = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] ;
 var DDate = function(epooch) {
     /* for reference, epoch is Sweetmorn, 1 Chaos 3136 */
     this.date = {};
 
     this.initificate = function(epooch) {
-        epooch -= new Date().getTimezoneOffset() * minute;
-        var leps = Math.floor(epooch / year / 4);
-        epooch -= leps * day;
-
-        var cur = Math.floor((epooch % year) / day);
-        var flarf = Math.floor(epooch / (day * 365)) + 3136;
-        var ist = ((flarf - 3130) % 4 == 0);
-        this.tabby = (ist && cur == 59);
-        if(ist && cur > 59) cur -= 1;
-
-        var gwar = Math.floor(cur % 73) + 1;
-        var sn = Math.floor(cur / 73);
-        var woody = 0;
-        for(var i = 1; i <= cur; i++) {
-            woody = (woody == 4) ? 0 : woody + 1;
+        if( typeof epooch === 'undefined') { epooch = new Date(); } else {epooch = new Date(epooch) ;}
+        // console.log(epooch.toJSON() );
+        var gyear = epooch.getUTCFullYear() ; 
+        var leapyear = ( gyear % 4 == 0 ) ;
+        // console.log("leapyear", leapyear);
+        var dyear = gyear + 1166   ;
+        // console.log("dyear", dyear);
+        var dom = epooch.getDate();
+        // console.log("dom", dom);
+        var month = epooch.getMonth(); //0 index
+        // console.log("month", month);
+        var ddoy = dom ; 
+        var leapday = false ; 
+        for( var i = 0 ; i < month ; i++ ){
+            // console.log("month_days", i );
+            ddoy += month_days[i];
         }
-        var hoyl = holydays[seasons[sn].l][gwar] || false;
-        this.numricks = [ woody, sn, gwar, flarf, hoyl ];
-        if(this.tabby) return { tibs: true, year: flarf };
+
+        if(leapyear == true ){
+            if( month == 1 && dom == 29 ){ 
+                leapday = true;
+                // console.log("ld", leapday );
+            } 
+            // if( month > 1) {ddoy += 1 ; } ; 
+        }
+        //invalid
+        if( ! leapday ) {
+            if ( month_days[month] < dom ) {
+                console.log("invalid date!");
+                return "error";
+            }
+        }
+        // console.log( "leapday", leapday) ;
+        // console.log( "ddoy", ddoy );
+        var dday = ddoy % 73 ;
+        var sn = Math.floor( ddoy / 73 );
+        // console.log("sn", sn );
+        //weekday
+        var woody = ( ddoy - 1 ) % 5 ; 
+        // var woody = 0;
+        // for(var i = 1; i <= dday; i++) {
+        //     woody = (woody == 4) ? 0 : woody + 1;
+        // }
+        // console.log("woody", woody);
+        var hoyl = holydays[seasons[sn].l][dday] || false;
+        // console.log("hoyl", hoyl );
+        this.numricks = [ woody, sn, dday, dyear, hoyl ];
+        this.tabby = leapday ; 
+        if(this.tabby) return { tibs: true, year: dyear };
         return {
             tibs: false,
             day: days[woody],
             season: seasons[sn],
-            date: gwar,
-            year: flarf,
+            date: dday,
+            year: dyear,
             holyday: hoyl
         };
     };
@@ -98,21 +129,28 @@ var DDate = function(epooch) {
     };
 
     this.toDateString = function() {
-        return this.format("%{%A, %B %e%}, %Y YOLD");
+        return this.format("%{%A, %B %e%}, %Y YOLD %H");
     };
 
     this.getDate = function() {
         return this.date;
     };
 
+    this.ddate = function() {
+        return this.format("Today is %{%A, the %e day of %B%} in the YOLD %Y%N%nCelebrate %H");
+    }
+
     this.format = function(str) {
         if(!str) return;
+        // console.log("str", str);
         var r = '';
         var stopit = false;
         var tibsing = false;
         for(var i = 0; i < str.length; i++) {
+            // console.log("i",i, str[i], str[i+1], "numricks", this.numricks );
             if(stopit) break;
             if(str[i] == '%' && str[i+1] == '}') tibsing = ((i += 2) == Infinity);
+            // console.log("tibsing",tibsing);
             if(tibsing) continue;
             if(str[i] == '%') {
                 switch(str[i+1]) {
@@ -167,7 +205,7 @@ var DDate = function(epooch) {
         return r;
     };
 
-    this.date = this.initificate(epooch || new Date().getTime());
+    this.date = this.initificate( epooch || new Date().getTime() );
 };
 
 module.exports = DDate;
